@@ -45,3 +45,22 @@ def resume(savefile, quiet=False):
     install_words(_game)
     if not quiet:
         print('GAME RESTORED\n')
+
+# Simple API for programmatic use
+def create_game(seed=None):
+    """Create a new Adventure game instance for API use."""
+    from .game import Game
+    game = Game(seed)
+    load_advent_dat(game)
+    game.start()
+    # Answer the instructions question with "no"
+    game.do_command(['no'])
+    return game
+
+def send_command(game, command_string):
+    """Send a command to the game and return the response."""
+    import re
+    words = re.findall(r'\w+', command_string.lower())
+    if not words:
+        return "I don't understand that command."
+    return game.do_command(words)
