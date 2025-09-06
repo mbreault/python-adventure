@@ -130,10 +130,11 @@ if __name__ == "__main__":
     # Parse section 1 (rooms)
     if 1 in sections:
         rooms = parse_section_data(1, sections[1])
+        rooms_dict = {room_id: description for room_id, description in rooms.items()}
         print(f"\nSection 1 - Rooms: {len(rooms)} rooms")
-        for room_id, description in rooms.items():
-            print(f"{room_id}: {description}")
 
+    # validate map
+    print("Validating map...")
     if 3 in sections:
         map = parse_section_data(3, sections[3])
         for location in map:
@@ -141,14 +142,30 @@ if __name__ == "__main__":
             print(map_structure)
             source_room_int = int(map_structure[0])
             destination_room_int = int(map_structure[1])
-            source = rooms[source_room_int]
+            source = rooms_dict[source_room_int]
             if destination_room_int < 131 and destination_room_int > 0:
-                print(destination_room_int)
-                destination = rooms[destination_room_int]
+                #print(destination_room_int)
+                destination = rooms_dict[destination_room_int]
             verbs = map_structure[2:]
-            print(f"{source} -> {destination} ({verbs})")
+            #print(f"{source} -> {destination} ({verbs})")
 
     # Parse section 4 (vocabulary)
     if 4 in sections:
         vocab = parse_section_data(4, sections[4])
         print(f"\nSection 4 - Vocabulary: {len(vocab)} words")
+
+    # find orphaned rooms.  rooms in the source that are not in the destination for any direction
+    print("Finding orphaned rooms...")
+    rooms = [room_id for room_id,_ in parse_section_data(1, sections[1]).items()]
+    map = parse_section_data(3, sections[3])
+    source_rooms = []
+    destination_rooms = []
+    for location in map:
+        map_structure = location.split('\t')
+        source_rooms.append(int(map_structure[0]))
+        destination_rooms.append(int(map_structure[1]))
+    orphaned_rooms = set(rooms) - set(destination_rooms)
+    # sort
+    orphaned_rooms = sorted(orphaned_rooms)
+    print(orphaned_rooms)
+    
