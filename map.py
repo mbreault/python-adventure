@@ -138,6 +138,7 @@ if __name__ == "__main__":
         map = parse_section_data(3, sections[3])
         for location in map:
             map_structure = location.split('\t')
+            print(map_structure)
             source_room_int = int(map_structure[0])
             destination_room_int = int(map_structure[1])
             source = rooms[source_room_int]
