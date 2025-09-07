@@ -1282,8 +1282,8 @@ class Game(Data):
 
         dwarves_here = [ d for d in self.dwarves if d.room is self.loc ]
         if dwarves_here:
-            # 1/3rd chance that throwing the axe kills a dwarf
-            if self.choice((True, False, False)):
+            # 2/3rd chance that throwing the axe kills a dwarf
+            if self.choice((True, True, False)):
                 self.dwarves.remove(dwarves_here[0])
                 self.dwarves_killed += 1
                 if self.dwarves_killed == 1:
