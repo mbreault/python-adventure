@@ -246,7 +246,7 @@ class Game(Data):
                 if dwarf.room is dwarf.old_room:
                     dwarf_attacks += 1
                     self.knife_location = self.loc
-                    if self.random() < .095 * (self.dwarf_stage - 2):
+                    if self.random() < 0.0 * (self.dwarf_stage - 2):
                         knife_wounds += 1
 
             else:  # the pirate
