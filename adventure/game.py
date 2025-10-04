@@ -801,7 +801,7 @@ class Game(Data):
                     if self.bottle.contents is not None:
                         self.bottle.contents.hide()
                     self.is_dead = False
-                    # Always reincarnate with a lit lamp for LLM playability
+                    # Always reincarnate with the lamp for LLM playability
                     # But keep original lamp timer to preserve game balance
                     self.lamp.prop = 0  # Lamp is off
                     self.lamp.is_toting = True  # You have it
