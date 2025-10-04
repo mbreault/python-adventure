@@ -801,13 +801,17 @@ class Game(Data):
                     if self.bottle.contents is not None:
                         self.bottle.contents.hide()
                     self.is_dead = False
-                    if self.lamp.is_toting:
-                        self.lamp.prop = 0
+                    # Always reincarnate with a lit lamp for LLM playability
+                    # But keep original lamp timer to preserve game balance
+                    self.lamp.prop = 0  # Lamp is off
+                    self.lamp.is_toting = True  # You have it
+                    self.lamp.rooms = []  # Remove from any room
+
+                    # Drop other items at death location (except lamp which we keep)
                     for obj in self.inventory:
-                        if obj is self.lamp:
-                            obj.drop(self.rooms[1])
-                        else:
+                        if obj is not self.lamp:
                             obj.drop(self.oldloc2)
+
                     self.loc = self.rooms[3]
                     self.describe_location()
                     return
